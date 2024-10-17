@@ -1,0 +1,25 @@
+[max. 2p] I - Swift - podstawy, if, pętle
+	*0.5p - z.1, 
+	*1p - z.2 a-g, 
+	*0.5p - z.2 h-i
+
+[max. 2p] II - Swift (String)
+	*1p - z.1 i z.2, 
+	*1p - z.3 i z.4
+
+[max. 4p] III, IV - Swift (Dictionary)
+	*2p - Wykorzystując słownik/i, oraz dotychczasową wiedzę stwórz własną, spójną, logiczną grę paragrafową (przykłady profesjonalnych).
+	*1p - proszę o minimum 15 paragrafów, rozgałęzienia, zapętlenia w akcji i zakończenie/a, decydujemy o akcji poprzez "a"/"b"/"c"/itd. 
+		- nie wpisujemy wprost numeru paragrafu do którego się udajemy
+	0.5p - tworząc rysuj/zapisuj drzewo zależności - ułatwi ewentualną ocenę
+	0.5p - zadbaj o grafiki (mogą być "z sieci"). Konwerter na ASCII arty (+opcja invert)
+ 
+[max. 2p] V - Swift (Array)
+	*0.5p - z.1, 
+	*1p - z.2, 
+	*0.5p - z.3
+
+[2p] VI - Swift (Set)
+	całe
+
+SUMA: 9p
