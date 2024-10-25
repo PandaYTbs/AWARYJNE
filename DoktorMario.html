@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #pf {
+            width: 400px;
+            border: 0px solid;
+        }
+
+        .piece {
+            width: 50px;
+            height: 50px;
+            border: solid 1px;
+            float: left;
+        }
+
+        .piece:nth-child(8n + 1) {
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="pf"></div>
+    <script>
+        class Piece {
+            #possibleColors = ["red", "pink", "black"]
+            color;
+            isStuck; // 0 = nie leci, 1 = spada
+            constructor() {
+                let r = Math.floor(Math.random() * this.#possibleColors.length);
+                this.color = this.#possibleColors[r];
+            }
+        }
+
+        class Game {
+            width;
+            height;
+            pf = [];
+            pill = { pieces: [], orientation: "horizontal", position: [1, 3] }; // lokalizaja piguł gwałtu
+            #container;
+
+            constructor(width, height, container) {
+                this.width = width;
+                this.height = height;
+                this.#container = document.getElementById(container);
+                this.generateArray();
+                this.placePill();
+                this.render();
+
+                // listener
+                document.addEventListener("keydown", this.handleKeyPress.bind(this));
+            }
+
+            placePill() {
+                const pill = new Piece();
+                this.pill.pieces = [pill, new Piece()]; 
+                this.updatePillPosition(this.pill.position);
+            }
+
+            generateArray() {
+                for (let i = 0; i < this.height; i++) {
+                    this.pf[i] = [];
+                    for (let j = 0; j < this.width; j++) {
+                        this.pf[i][j] = null;
+                    }
+                }
+            }
+
+            updatePillPosition([row, col]) {
+                if (this.pill.orientation === "horizontal") {
+                    this.pf[row][col] = this.pill.pieces[0];
+                    this.pf[row][col + 1] = this.pill.pieces[1];
+                } else {
+                    this.pf[row][col] = this.pill.pieces[0];
+                    this.pf[row + 1][col] = this.pill.pieces[1];
+                }
+            }
+
+            clearPillFromGrid() {
+                const [row, col] = this.pill.position;
+                if (this.pill.orientation === "horizontal") {
+                    this.pf[row][col] = null;
+                    this.pf[row][col + 1] = null;
+                } else {
+                    this.pf[row][col] = null;
+                    this.pf[row + 1][col] = null;
+                }
+            }
+
+            rotatePill() {
+                const [row, col] = this.pill.position;
+
+                // moliwo rotacji
+                if (this.pill.orientation === "horizontal") {
+                    if (row + 1 < this.height && !this.pf[row + 1][col]) {
+                        this.pill.orientation = "vertical";
+                    }
+                } else {
+                    if (col + 1 < this.width && !this.pf[row][col + 1]) {
+                        this.pill.orientation = "horizontal";
+                    }
+                }
+            }
+
+            handleKeyPress(event) {
+                this.clearPillFromGrid();
+
+                if (event.key === "ArrowUp") {
+                    this.rotatePill();
+                } else if (event.key === "ArrowLeft" && this.pill.position[1] > 0) {
+                    this.pill.position[1]--; // lewo
+                } else if (event.key === "ArrowRight" && this.pill.position[1] < this.width - 2) {
+                    this.pill.position[1]++; // prawo
+                }
+
+                this.updatePillPosition(this.pill.position);
+                this.render();
+            }
+
+            render() {
+                this.#container.innerHTML = ""; // czyszczenie
+                for (let i = 0; i < this.height; i++) {
+                    for (let j = 0; j < this.width; j++) {
+                        let div = document.createElement("div");
+                        if (this.pf[i][j] != null) {
+                            div.style.backgroundColor = this.pf[i][j].color;
+                        }
+                        div.classList.add("piece");
+                        this.#container.append(div);
+                    }
+                }
+            }
+        }
+
+        let game = new Game(8, 16, "pf");
+    </script>
+</body>
+
+</html>
